@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    {% include 'base/head.html' %}
+    <style>
+        body {
+            background-color: #e3f2fd;
+        }
+    </style>
+</head>
+<body>
+    {% include 'base/navbar.html' %}
+    <form method="POST" class="post-form">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+    {% include 'base/js.html' %}
+</body>
+</html>

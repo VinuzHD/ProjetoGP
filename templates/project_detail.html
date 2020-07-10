@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    {% include 'base/head.html' %}
+    <style>
+        body {
+            background-color: #e3f2fd;
+        }
+    </style>
+</head>
+<body>
+    {% include 'base/navbar.html' %}
+    <div class="container container-fluid">
+        <div class="d-flex flex-column justify-content-center">
+            <h1>{{project.name_text}}</h1>
+            <span><h4>Empresa</h4><p>{{project.empresa}}</p></span>
+            <span><h4>Descrição</h4><p>{{project.descricao}}</p></span>
+            <span><h4>Users</h4><p>{{project.users}}</p></span>
+            {% if project.aprovado %}
+                <span><h4>Aprovado</h4><p>Sim</p></span>
+            {% endif %}
+
+            {% if not project.aprovado %}
+                <span><h4>Aprovado</h4><p>Não</p></span>
+            {% endif %}
+
+            {% if project.complete %}
+                <span><h4>Completo</h4><p>Sim</p></span>
+            {% endif %}
+
+            {% if not project.complete %}
+                <span><h4>Completo</h4><p>Não</p></span>
+            {% endif %}
+
+            {% if can_edit %}
+                <a class="btn btn-outline" href="/voluntariado/project/edit/{{project.id}}">Editar Projecto</a>
+            {% endif %}
+        </div>
+    </div>
+    {% include 'base/js.html' %}
+</body>
+</html>

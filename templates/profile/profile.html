@@ -1,0 +1,56 @@
+<div class="container rounded" style="padding-bottom: 15px">
+    <div class="container-fluid rounded" style="margin-top: 10px; padding-top: 10px">
+        <nav>
+          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="true">Perfil</a>
+            <a class="nav-item nav-link" id="nav-projects-tab" data-toggle="tab" href="#nav-projects" role="tab" aria-controls="nav-projects" aria-selected="false">Projectos</a>
+          </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+          <div class="tab-pane active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+              <div class="row">
+                    <div class="col">
+                        <p>Nome: {{ request.user.first_name }} {{ request.user.last_name}} <i class="material-icons" onclick="window.location=('{% url 'profile_edit' %}');">mode_edit</i></p>
+                        <p>Email: {{ request.user.email }}</p>
+                        <p>Idade: {{ user.age }}</p>
+                    </div>
+                    <div class="col">
+                        <p>Empresa: {{ user.empresa }}</p>
+                        <p>Morada: {{ user.morada }}</p>
+                    </div>
+                    <div class="col">
+                        <p>Área de Interesse: {{ user.area_de_interesse }}</p>
+                        <p>Profissão: {{ user.profissao }}</p>
+                    </div>
+              </div>
+          </div>
+          <div class="tab-pane fade" id="nav-projects" role="tabpanel" aria-labelledby="nav-projects-tab">
+              <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">Nome</th>
+                      <th scope="col">Empresa</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for project in projects %}
+                     <tr>
+                         <th scope="row">{{project.name_text}}</th>
+                         <td>{{project.empresa}}</td>
+                         <td><a href="/voluntariado/project/{{project.id}}">Detalhes</a></td>
+                     </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+          </div>
+        </div>
+    </div>
+    <style>
+        .btn-view, .btn-delete {
+            float: right;
+            background: none;
+            border: none;
+        }
+    </style>
+</div>

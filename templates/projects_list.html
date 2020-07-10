@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    {% include 'base/head.html' %}
+    <style>
+        body {
+            background-color: #e3f2fd;
+        }
+    </style>
+</head>
+<body>
+    {% csrf_token %}
+    {% include 'base/navbar.html' %}
+    <div class="container my-4">
+        <ul class="list-group list-group-flush">
+            <div class="d-flex justify-content-around align-item-center">
+                {% for project in projects %}
+                <span style="display: flex; width: 100%; justify-content: space-evenly;">
+                    <li class="list-group-item"><a href="/voluntariado/project/{{project.id}}">{{project.name_text}}</a></li>
+                    <button type="submit" class="btn btn-primary" onclick="send_email({{userId}}, {{project.id}}, '{{userMail}}', '{{username}}')">Candidatar</button>
+                </span>
+                {% endfor %}
+            </div>
+        </ul>
+    </div>
+
+    {% include 'base/js.html' %}
+</body>
+</html>
+
+
+<script>
+    async function postData(url = '', data = {}) {
+        var csrftoken = '{{ csrf_token }}';
+      const response = await fetch(url, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          "X-CSRFToken": csrftoken
+        },
+        body: JSON.stringify(data)
+      });
+      return response;
+    }
+
+    function send_email(userId, projectId, userMail, username) {
+    var csrftoken = '{{ csrf_token }}';
+        postData('http://localhost:8000/voluntariado/send_mail/',
+            {
+                userId,
+                projectId,
+                userMail,
+                username
+            }
+        )
+          .then(data => {
+            console.log(data);
+            if(data.status === 200){
+                alert("Candidatura enviada!");
+            }
+            else
+                alert("Erro ao enviar o email.")
+          });
+    }
+
+</script>

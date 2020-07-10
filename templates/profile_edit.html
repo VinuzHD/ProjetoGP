@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    {% include 'base/head.html' %}
+    <style>
+        body {
+            background-color: #e3f2fd;
+        }
+    </style>
+</head>
+<body>
+
+        {% load crispy_forms_tags %}
+    {% include 'base/navbar.html' %}
+        <form method="post" class="post-form">{% csrf_token %}
+            {{user_form | crispy}}
+            {{profile_form | crispy}}
+            <button type="submit" class="save btn btn-default">Save</button>
+        </form>
+
+    {% include 'base/js.html' %}
+</body>
+</html>

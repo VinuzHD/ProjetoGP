@@ -1,0 +1,48 @@
+<div class="container">
+    <div class="container-fluid rounded" style="padding-bottom: 15px; padding-top: 15px; margin-top:10px">
+        {% if is_new %}
+        <form onsubmit="event.preventDefault(); agenda.post()" method="POST">
+        {% else %}
+        <form onsubmit="event.preventDefault(); agenda.put({{ agenda.id }})" method="POST">
+        {% endif %}
+            {% csrf_token %}
+            <input type="text" id="id_medico" value="{{ profile.id }}" hidden="True">
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="{{ form.data.id_for_label }}">Data</label>
+                    <!--<input type="date" class="form-control" id="validationServer01" required>-->
+                    {{ form.data }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="{{ form.consultorio.id_for_label }}">Consultorio</label>
+                    <!--<input type="time" class="form-control" id="validationServer02" required>-->
+                    {{ form.consultorio }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="{{ form.animal.id_for_label }}">Animal</label>
+                    <div class="input-group">
+                        {{ form.animal }}
+                        <!--<select class="custom-select mr-sm-2" id="validationServer03">
+                            <option selected>Animal...</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>-->
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-12 mb-6">
+                    <label for="{{ form.observacoes.id_for_label }}">Observações</label>
+                    <!--<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>-->
+                    {{ form.detalhes }}
+                </div>
+            </div>
+            {% if is_new %}
+                <button class="btn btn-primary" type="submit" style="margin-top:10px">Adicionar</button>
+            {% else %}
+                <button class="btn btn-primary" type="submit" style="margin-top:10px">Atualizar</button>
+            {% endif %}
+        </form>
+    </div>
+</div>

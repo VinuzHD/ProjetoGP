@@ -1,0 +1,29 @@
+<!doctype html>
+{% load static %}
+<html>
+<head>
+    {% include 'base/head.html' %}
+    <link rel="stylesheet" href="{% static 'css/account.css' %}">
+</head>
+<body>
+<div class="container">
+    <form class="form-signin justify-content-center" action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <div class="row justify-content-center">
+            <img class="mb-4" src="{% static 'images/Logo.PNG' %}" alt="" width="72" height="72">
+        </div>
+        <h1 class="h3 mb-3 font-weight-normal">Iniciar Sessão</h1>
+        <div class="text-danger">{{ error }}</div>
+        <label for="{{ form.username.id_for_label }}" class="sr-only">Username</label>
+        <!--<input type="text" id="{{form.username.id_for_label}}" class="form-control" placeholder="Username" required="" autofocus="" value="{{form.username.value}}">-->
+        {{ form.username }}
+        <label for="{{ form.password.id_for_label }}" class="sr-only">Password</label>
+        <!--<input type="password" id="{{form.password.id_for_label}}" class="form-control" placeholder="Password" required="" value="{{form.password.value}}">-->
+        {{ form.password }}
+        <a href="{% url 'register' %}">Registar</a>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" style="margin-top: 10px;">Iniciar</button>
+    </form>
+</div>
+{% include 'base/js.html' %}
+</body>
+</html>

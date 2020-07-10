@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    {% include 'base/head.html' %}
+    <style>
+        body {
+            background-color: #e3f2fd;
+        }
+    </style>
+</head>
+<body>
+    {% csrf_token %}
+    {% include 'base/navbar.html' %}
+    <div class="container my-4">
+        <h1>{{user.user.username}}</h1>
+        <h5>Email: {{user.user.email}}</h5>
+        <h5>Descrição: {{user.descricao}}</h5>
+        <h5>Empresa: {{user.empresa}}</h5>
+        <h5>Profissão: {{user.profissao}}</h5>
+    </div>
+
+    {% include 'base/js.html' %}
+</body>
+</html>

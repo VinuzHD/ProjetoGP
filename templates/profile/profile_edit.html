@@ -1,0 +1,48 @@
+<div class="container">
+    <div class="container-fluid rounded" style="padding-bottom: 15px; padding-top: 15px; margin-top:10px">
+        <form action="{% url 'profile_edit' %}" method="post">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="{{ user_form.username.id_for_label }}">Username</label>
+                    <!--<input type="text" class="form-control" id="validationServer01" value="{{ request.user.username }}"-->
+                           <!--required>-->
+                    {{ user_form.username }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="{{ user_form.first_name.id_for_label }}">Nome</label>
+                    <!--<input type="text" class="form-control" id="validationServer02"-->
+                           <!--value="{{ request.user.first_name }}" required>-->
+                    {{ user_form.first_name }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="{{ user_form.last_name.id_for_label }}">Apelido</label>
+                    <!--<input type="text" class="form-control" id="validationServer03"-->
+                           <!--value="{{ request.user.last_name }}" required>-->
+                    {{ user_form.last_name }}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="{{ user_form.email.id_for_label }}">Email</label>
+                    <!--<input type="email" class="form-control" id="validationServer04"-->
+                           <!--value="{{ request.user.email }}" required>-->
+                    {{ user_form.email }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="{{ profile_form.cc.id_for_label }}">Cartão cidadao</label>
+                    <!--<input type="email" class="form-control" id="validationServer05"-->
+                           <!--value="{{ user.consultorio }}" required>-->
+                    {{ profile_form.cc }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="{{ profile_form.morada.id_for_label }}">Morada</label>
+                    <!--<input type="email" class="form-control" id="validationServer06"-->
+                           <!--value="{{ user.identificacao }}" required>-->
+                    {{ profile_form.morada }}
+                </div>
+            </div>
+            <button class="btn btn-primary" type="submit" style="margin-top:10px">Atualizar</button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+{% load static %}
+<nav class="navbar navbar-expand-md navbar-light bg-info">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="{% static 'images/Logo.PNG' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+            Portal Voluntariado IPS
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-item nav-link" href="{% url 'project_list' %}">Lista de Projectos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-item nav-link" href="{% url 'project_view' %}">Adicionar Projecto</a>
+            </li>
+        </ul>
+        <span class="navbar-text">
+            <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+        </span>
+    </div>
+</div>
+</nav>
