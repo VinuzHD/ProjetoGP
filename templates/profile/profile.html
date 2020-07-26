@@ -21,6 +21,7 @@
                     <div class="col">
                         <p>Área de Interesse: {{ user.area_de_interesse }}</p>
                         <p>Profissão: {{ user.profissao }}</p>
+                        <p>Descrição: {{ user.descricao }}</p>
                     </div>
               </div>
           </div>
@@ -31,6 +32,7 @@
                       <th scope="col">Nome</th>
                       <th scope="col">Empresa</th>
                       <th></th>
+                        <th></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -39,6 +41,7 @@
                          <th scope="row">{{project.name_text}}</th>
                          <td>{{project.empresa}}</td>
                          <td><a href="/voluntariado/project/{{project.id}}">Detalhes</a></td>
+                         <td><button class="btn btn-primary" onclick="send_email({{userId}}, {{project.id}},'{{userMail}}', '{{username}}')">Submeter</button></td>
                      </tr>
                   {% endfor %}
                   </tbody>
@@ -54,3 +57,39 @@
         }
     </style>
 </div>
+
+<script>
+    async function postData(url = '', data = {}) {
+        var csrftoken = '{{ csrf_token }}';
+      const response = await fetch(url, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          "X-CSRFToken": csrftoken
+        },
+        body: JSON.stringify(data)
+      });
+      return response;
+    }
+
+    function send_email(userId, projectId, userMail, username) {
+    var csrftoken = '{{ csrf_token }}';
+        postData('http://localhost:8000/voluntariado/submeter/',
+            {
+                userId,
+                projectId,
+                userMail,
+                username
+            }
+        )
+          .then(data => {
+            console.log(data);
+            if(data.status === 200){
+                alert("Projecto submetido!");
+            }
+            else
+                alert("Erro ao enviar o email.")
+          });
+    }
+
+</script>

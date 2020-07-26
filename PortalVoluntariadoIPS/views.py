@@ -122,7 +122,11 @@ class ProjectEdit(LoginRequiredMixin, TemplateView):
         if request.method == "POST":
             form = ProjectForm(request.POST, instance=project)
             if form.is_valid():
-                project = form.save(commit=False)
+                project.empresa = form.cleaned_data["empresa"]
+                project.descricao = form.cleaned_data["descricao"]
+                project.responsavel = form.cleaned_data["responsavel"]
+                project.users = form.cleaned_data["users"]
+                project.name_text = form.cleaned_data["name_text"]
                 project.save()
                 return redirect('project_list')
 
@@ -135,8 +139,7 @@ class ProfileDetailView(LoginRequiredMixin, TemplateView):
     def get(self, request, *args, **kwargs):
         user = Profile.objects.filter(user=request.user.id).first()
         projects = Project.objects.filter(responsavel=request.user.id)
-        return render(request, self.template_name, {'user': user, 'projects': projects})
-
+        return render(request, self.template_name, {'user': user, "projects": projects, "userId": request.user.id, "username": request.user.username, "userMail": request.user.email})
 
 class ProjectDetail(LoginRequiredMixin, TemplateView):
     login_url = '/voluntariado/login/'
@@ -157,8 +160,9 @@ class ProjectsView(LoginRequiredMixin, TemplateView):
     def get(self, request, *args, **kwargs):
         responsavel = Profile.objects.get(user=request.user.id)
         projects = Project.objects.filter(~Q(responsavel=responsavel))
-        return render(request, self.template_name, {"projects": projects, "userId": request.user.id, "username": request.user.username, "userMail": request.user.email})
-
+        return render(request, self.template_name,
+                      {"projects": projects, "userId": request.user.id, "username": request.user.username,
+                       "userMail": request.user.email})
 
 class ProfileView(LoginRequiredMixin, TemplateView):
     login_url = '/voluntariado/login/'
@@ -182,6 +186,26 @@ def SendEmail(request):
         message = 'Utilizador {} ({}) ({}) com o ID: {} gostaria de se associar ao projecto {}'.format(body["username"], body["userMail"], linkForUserProfile, body["userId"], body["projectId"])
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [responsavel]
+        send_mail(subject, message, email_from, recipient_list)
+
+    except Exception as e:
+        return JsonResponse({"error": e}, status=500)
+
+    return JsonResponse({"success": "success"}, status=200)
+
+
+@csrf_exempt
+def SubmeterProjecto(request):
+    body = json.loads(request.body)
+    try:
+        projectId = body["projectId"]
+        project = Project.objects.filter(id=projectId).first()
+        responsavel = project.responsavel.user.email
+        linkForUserProfile = "http://localhost:8000/voluntariado/profile/{}".format(body["userId"])
+        subject = 'Projecto {} - Submetido'.format(body["projectId"])
+        message = 'Utilizador {} ({}) ({}) com o ID: {} submeteu o projecto {} para avaliação'.format(body["username"], body["userMail"], linkForUserProfile, body["userId"], body["projectId"])
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = ["noreplyvoluntariadogdp@gmail.com"]
         send_mail(subject, message, email_from, recipient_list)
 
     except Exception as e:
@@ -214,3 +238,20 @@ class ProjectView(LoginRequiredMixin, TemplateView):
             project.save()
 
         return HttpResponseRedirect(reverse('project_view'))
+
+
+class EstatisticasView(LoginRequiredMixin, TemplateView):
+    login_url = '/voluntariado/login/'
+    redirect_field_name = 'redirect_to'
+    template_name = 'estatisticas.html'
+
+    def get(self, request, *args, **kwargs):
+        n_projectos = Project.objects.all().count()
+        n_users = User.objects.all().count()
+        n_complete_projects = Project.objects.filter(complete=False).count()
+        n_non_complete_projects = Project.objects.filter(complete=True).count()
+        n_projects_with_users = Project.objects.filter(~Q(users="")).count()
+        n_non_aproved_projects = Project.objects.filter(aprovado=False).count()
+        return render(request, self.template_name, {"n_projectos": n_projectos,"n_users": n_users,
+                                                    "n_complete_projects": n_complete_projects,"n_non_complete_projects": n_non_complete_projects,
+                                                    "n_projects_with_users": n_projects_with_users,"n_non_aproved_projects": n_non_aproved_projects})

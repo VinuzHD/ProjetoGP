@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    {% include 'base/head.html' %}
+    <style>
+        body {
+            background-color: #e3f2fd;
+        }
+    </style>
+</head>
+<body>
+    {% csrf_token %}
+    {% include 'base/navbar.html' %}
+    <div class="container my-4">
+        <h1>Estatisticas</h1>
+        <h5>Número de users: {{n_users}}</h5>
+        <h5>Número de projectos: {{n_projectos}}</h5>
+        <h5>Número de projectos activos: {{n_complete_projects}}</h5>
+        <h5>Número de projectos não activos: {{n_non_complete_projects}}</h5>
+        <h5>Projectos com users atribuidos: {{n_projects_with_users}}</h5>
+        <h5>Projectos por avaliar: {{n_non_aproved_projects}}</h5>
+    </div>
+
+    {% include 'base/js.html' %}
+</body>
+</html>

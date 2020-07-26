@@ -1,0 +1,1 @@
+web: gunicorn voluntariado.wsgi --log-file -

@@ -191,7 +191,7 @@ class ProjectForm(forms.ModelForm):
     )
     descricao = forms.CharField(
         label="Descricao",
-        widget=forms.TextInput(
+        widget=forms.Textarea(
             attrs={
                 'class': 'form-control mx-1',
                 'placeholder': 'Descricao'
@@ -200,7 +200,7 @@ class ProjectForm(forms.ModelForm):
 
     users = forms.CharField(
         label="Users",
-        widget=forms.TextInput(
+        widget=forms.Textarea(
             attrs={
                 'class': 'form-control mx-1',
                 'placeholder': 'Users Atribuidos'
